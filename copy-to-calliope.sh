@@ -6,7 +6,7 @@ if [ -d "$1" ]
 then
 	srcdir=$( sed -r -e "s/[\/]+$//" <<< $1 )
 	echo "-- copying from $srcdir"
-	cp -uv $srcdir/*.hex .
+	mv -uv $srcdir/*.hex .
 else
 	echo "-- no source copy set"
 fi
