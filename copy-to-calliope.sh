@@ -6,7 +6,9 @@ if [ -d "$1" ]
 then
 	srcdir=$( sed -r -e "s/[\/]+$//" <<< $1 )
 	echo "-- copying from $srcdir"
-	mv -uv $srcdir/*.hex .
+    [ $( ls $srcdir/*.hex 2> /dev/null | wc -l ) -gt 0 ] && {
+        mv -uv $srcdir/*.hex .
+    }
 else
 	echo "-- no source copy set"
 fi
@@ -23,6 +25,7 @@ then
 fi
 minidir=$( sed -r -e "s/[\/]+$//" <<< $minidir )
 echo "-- mini-dir: $minidir"
+[ -z "$minidir" ] && { echo "-- not connected"; exit 1; }
 echo "-- install bbc-cmd-hub"
 if [ ! -f "bbc-cmd-hub" ]
 then
