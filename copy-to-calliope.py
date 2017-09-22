@@ -43,7 +43,11 @@ def _copy_to_calliope(src_file):
         '/' + path.join('media', 'MINI'),
         '/' + path.join('media', getpass.getuser(), 'MINI'),
         '/' + path.join('media', 'MINI1'),
-        '/' + path.join('media', getpass.getuser(), 'MINI1')
+        '/' + path.join('media', getpass.getuser(), 'MINI1'),
+        '/' + path.join('media', 'MINI2'),
+        '/' + path.join('media', getpass.getuser(), 'MINI2'),
+        '/' + path.join('media', 'MINI3'),
+        '/' + path.join('media', getpass.getuser(), 'MINI3')
     ]
     for target_candidate in target_candidates:
         if path.exists(target_candidate):
