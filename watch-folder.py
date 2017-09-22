@@ -43,7 +43,7 @@ def _handle_files(input_file, target_dir):
         bn = re.sub('\.hex$', '', bn)
         tfile = path.join(target_dir, '{}-{}-{}.hex'.format(
             bn, now_filesave, i))
-        print('handle: {} [{}]\n\t> {}'.format(ifile, i, tfile))
+        print('[DL] {} [{}]\n[PROJECT] {}'.format(ifile, i, tfile))
         move(ifile, tfile)
         tfiles.append(tfile)
         i += 1
@@ -51,7 +51,7 @@ def _handle_files(input_file, target_dir):
 
 
 def _deploy_file(file):
-    print('-- deploying {}'.format(file))
+    print('>>> {}'.format(file))
     subprocess.Popen('./copy-to-calliope.py {}'.format(file), shell=True)
 
 

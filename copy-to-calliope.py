@@ -14,11 +14,11 @@ PROJECTS_DIR = 'projects'
 
 
 def _find_mini_projects(root_path, filepattern):
-    for dirname, _, filenames in walk(root_path):
-        for filename in filenames:
-            filepath = path.join(dirname, filename)
+    for dirname, _, src_files in walk(root_path):
+        for src_file in src_files:
+            filepath = path.join(dirname, src_file)
             if re.match(filepattern, filepath, re.IGNORECASE):
-                MINI_PROJECTS.append(filename)
+                MINI_PROJECTS.append(src_file)
     return MINI_PROJECTS
 
 
@@ -35,32 +35,27 @@ def _completer(prefix, index):
         return None
 
 
-def _copy_to_calliope(filename):
-    filename = path.abspath(filename)
-    print('copying file \'{}\' to calliope mini...'.format(filename))
+def _copy_to_calliope(src_file):
+    src_file = path.abspath(src_file)
+    print('[INFILE] {}'.format(src_file))
     target_dir = None
     target_candidates = [
         '/' + path.join('media', 'MINI'),
-        '/' + path.join('media', getpass.getuser(), 'MINI')
+        '/' + path.join('media', getpass.getuser(), 'MINI'),
+        '/' + path.join('media', 'MINI1'),
+        '/' + path.join('media', getpass.getuser(), 'MINI1')
     ]
     for target_candidate in target_candidates:
-        print('testing path {}'.format(target_candidate))
         if path.exists(target_candidate):
             target_dir = path.abspath(target_candidate)
-            print('path {} available'.format(target_dir))
-            break
+            target_file = path.join(target_dir, path.basename(src_file))
+            calliope = re.sub('.*/', '', target_candidate)
+            print('[{}] {}'.format(calliope, path.basename(target_file)))
+            copyfile(src_file, target_file)
+
     if not target_dir:
         print('calliope appears to be not present.')
         sys.exit(1)
-    copyfile(filename, path.join(target_dir, path.basename(filename)))
-
-    # if [ -d /media/$( whoami )/MINI ]
-    # then
-    # 	minidir="/media/$( whoami )/MINI"
-    # elif [ -d /media/MINI ]
-    # then
-    # 	minidir="/media/MINI"
-    # fi
 
 
 if __name__ == '__main__':
